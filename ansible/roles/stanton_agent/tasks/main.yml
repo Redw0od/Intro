@@ -1,0 +1,58 @@
+- name: Stop Agent Service
+  command: "launchctl stop com.stanton.Agent"
+- name: Create Agent Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: stanton
+    group: brew
+    mode: 0775
+    recurse: yes
+  with_items:
+    - /usr/local/share/Agent
+    - /usr/local/share/agentWork
+    - /usr/local/share/agentUpdates
+- stat: path=/Volumes/MacOS
+  register: network_share
+- name: Create Mount Directory
+  file:
+    path: /Volumes/MacOS
+    state: directory
+    owner: stanton
+    group: 1495802078
+    mode: 0700
+  when: network_share.stat.exists == False
+- name: Mount network share
+  command: "mount_smbfs //stanton:{{ stanton_pw }}@filer.stanton.wtf/MacOS /Volumes/MacOS"
+  when: network_share.stat.exists == False
+- name: Copy Agent
+  command: "cp -r /Volumes/MacOS/Agent/ /usr/local/share/Agent/"
+- name: Update Agent Config Admin Portal
+  replace:
+    path: "{{ item }}"
+    regexp: '("AdminUrl": ")(.*)(",)'
+    replace: '\1https://admin.ams.stanton.wtf:443/\3'
+  with_items:
+    - /usr/local/share/Agent/config/AgentConfig.json
+    - /usr/local/share/Agent/bin/AgentConfig.json
+- name: Update Agent Config path
+  replace:
+    path: "{{ item }}"
+    regexp: '("AgentPath": ")(.*)(",)'
+    replace: '\1/Applications/Stanton/bin/sourceanalyzer\3'
+  with_items:
+    - /usr/local/share/Agent/config/AgentConfig.json
+    - /usr/local/share/Agent/bin/AgentConfig.json
+- name: Update Service plist
+  replace:
+    path: /usr/local/share/Agent/config/Agentd.plist
+    regexp: '<string>USER-NAME-FOR-SERVICE<\/string>'
+    replace: '<string>stanton</string>'
+- name: Copy Service plist
+  command: "cp /usr/local/share/Agent/config/Agentd.plist /Library/LaunchDaemons/Agentd.plist"
+- name: load Agent Service
+  command: "launchctl load /Library/LaunchDaemons/Agentd.plist"
+- name: Stop Agent Service
+  command: "launchctl stop com.stanton.Agent"
+- name: Start Agent Service
+  command: "launchctl start com.stanton.Agent"

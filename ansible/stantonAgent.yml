@@ -1,0 +1,6 @@
+---
+- hosts: mac-scanners
+  become: yes
+  roles:
+    - stanton_agent
+
