@@ -38,19 +38,9 @@ Version: 0.1
 DateCreated: 2017-1-26
 DateUpdated: 2017-1-26
 
-.TODO
-Exclude Service Accounts
-Compare alias
-Show OU
-Retry Queue
-Status Output
-LastLogon
-
-.LINK
-http://www.hpe.com
 
 .EXAMPLE   
-.\Get-Baseline.ps1 -IIS -SQL -Computer PSMAD01 -Creds $(Get-Credentials) -Verbose -CSV -CSVPath .
+.\Get-Baseline.ps1 -IIS -SQL -Computer AD01 -Creds $(Get-Credentials) -Verbose -CSV -CSVPath .
 
 #>
 [cmdletbinding()]
@@ -76,17 +66,14 @@ Write-Verbose "IIS = $IIS"
 Write-Verbose "SQL = $SQL"
 Write-Verbose "CSV = $CSV"
 
-$Exclude = @(   "PSMAD01",
-                "PSMAD02",
-                "PSMAD03",
-                "PSMAD04",
-                "PSMAD05",
-                "PSMAD06",
-                "PSMAD07",
-                "PSMAD08",
-                "PLMAD01",
-                "PLMAD02",
-                "PSZWSN157")
+$Exclude = @(   "AD01",
+                "AD02",
+                "AD03",
+                "AD04",
+                "AD05",
+                "AD06",
+                "AD07",
+                "AD08")
 $Exclude | %{If($_ -eq $Computer){Exit}}
 
 Function BuildIISObject{
@@ -678,50 +665,3 @@ Else {
     $Grps
 #$SQLDBLogins | ft -auto
 }
-# SIG # Begin signature block
-# MIIIPQYJKoZIhvcNAQcCoIIILjCCCCoCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
-# gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU7oHbGICmcO5I0pNxO3ZOldPb
-# vHWgggWuMIIFqjCCBJKgAwIBAgITbgAAAKzOi+ol+RGLKQAAAAAArDANBgkqhkiG
-# 9w0BAQ0FADBBMRMwEQYKCZImiZPyLGQBGRYDbmV0MRUwEwYKCZImiZPyLGQBGRYF
-# aHBmb2QxEzARBgNVBAMTClBTTUNFUlRTMDEwHhcNMTgwMjA5MjIwMDM0WhcNMTkw
-# MjA5MjIwMDM0WjBvMRMwEQYKCZImiZPyLGQBGRYDbmV0MRUwEwYKCZImiZPyLGQB
-# GRYFaHBmb2QxDDAKBgNVBAsTA0ZPRDEOMAwGA1UECxMFVXNlcnMxDDAKBgNVBAsT
-# A09wczEVMBMGA1UEAxMMTWlrZSBTdGFudG9uMIIBIjANBgkqhkiG9w0BAQEFAAOC
-# AQ8AMIIBCgKCAQEAvk9oqgeTwJGtl8uZNUgf9gyqRi/Lxtyj8zrFlJqrW/yeuJAA
-# /XeBQqyPMkBd3Eq6H7Xmx286JOsCH7O7MvZGAUoE7m9gg0nXVIUvADukwK1CMQgF
-# ILrowvBYe6gusnn7a+kiYm68usv+OBU3UVcg7brOMZru6OisJFwwhw1HLzNOINwb
-# /aFst4MgRIpUZkVr5y/p32N9uNwPbZDeE0GGIiavnnKzlTGBpSNHSUNq+l6yAr2w
-# Gl6WS87MQYWXkXMMhdGRNSQJDwkwtw6uWIF0cee3TI2wqXIHTTWS3hzhVpnGnJ3w
-# spoWhk2yXGXciP5zKd5uKInRrwqmjoeihjX8/QIDAQABo4ICazCCAmcwJQYJKwYB
-# BAGCNxQCBBgeFgBDAG8AZABlAFMAaQBnAG4AaQBuAGcwEwYDVR0lBAwwCgYIKwYB
-# BQUHAwMwDgYDVR0PAQH/BAQDAgeAMB0GA1UdDgQWBBTGErOn7vtJpZuLu1MtnX4m
-# nK3M6zAfBgNVHSMEGDAWgBSlSAghybFdXgTP1bPcLwoWwleacDCByQYDVR0fBIHB
-# MIG+MIG7oIG4oIG1hoGybGRhcDovLy9DTj1QU01DRVJUUzAxLENOPVBTTUNlcnRz
-# MDEsQ049Q0RQLENOPVB1YmxpYyUyMEtleSUyMFNlcnZpY2VzLENOPVNlcnZpY2Vz
-# LENOPUNvbmZpZ3VyYXRpb24sREM9aHBmb2QsREM9bmV0P2NlcnRpZmljYXRlUmV2
-# b2NhdGlvbkxpc3Q/YmFzZT9vYmplY3RDbGFzcz1jUkxEaXN0cmlidXRpb25Qb2lu
-# dDCB3QYIKwYBBQUHAQEEgdAwgc0wgacGCCsGAQUFBzAChoGabGRhcDovLy9DTj1Q
-# U01DRVJUUzAxLENOPUFJQSxDTj1QdWJsaWMlMjBLZXklMjBTZXJ2aWNlcyxDTj1T
-# ZXJ2aWNlcyxDTj1Db25maWd1cmF0aW9uLERDPWhwZm9kLERDPW5ldD9jQUNlcnRp
-# ZmljYXRlP2Jhc2U/b2JqZWN0Q2xhc3M9Y2VydGlmaWNhdGlvbkF1dGhvcml0eTAh
-# BggrBgEFBQcwAYYVaHR0cDovL3BzbWNlcnQwMS9vY3NwMC0GA1UdEQQmMCSgIgYK
-# KwYBBAGCNxQCA6AUDBJtc3RhbnRvbkBocGZvZC5uZXQwDQYJKoZIhvcNAQENBQAD
-# ggEBAGj5z+lYcJzFAN7dU/Wcok/uyG0K5FxvNAERyYMjIY/rR6jndFQbnd/qu7Vw
-# AymOC8wDLYhoaYDs6XYzwA4aI5XkWslJPrS49nZPvqYcY0lXDPJX8Ryv85vdkIyc
-# 55+LD6iDy7Q51sMinrOljSzhkpfQ/87izHXomxF1TyzGk/qURi8w6P5u6Lbf5F0s
-# ri+MSAVEJrfAJZC/QIn9rVtGoxtEr7qLQOikGkDVrNZe+5hJtzkb9/hL5035VzTE
-# XRW3TXZhvoE9Cno57Z5YYX7oK82VduDroo3Jxt/Bd9VCbhHlCIPu4HuqAGVKBIDn
-# PMwnCQ9rZKD0uRWGUQwXjIFs9rMxggH5MIIB9QIBATBYMEExEzARBgoJkiaJk/Is
-# ZAEZFgNuZXQxFTATBgoJkiaJk/IsZAEZFgVocGZvZDETMBEGA1UEAxMKUFNNQ0VS
-# VFMwMQITbgAAAKzOi+ol+RGLKQAAAAAArDAJBgUrDgMCGgUAoHgwGAYKKwYBBAGC
-# NwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgor
-# BgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0BCQQxFgQUBqgw2oIO
-# VSANWLNXn5Dd73KHeJUwDQYJKoZIhvcNAQEBBQAEggEAYmwzX9j43loHb33MINBr
-# 7oCk7fTM3Ddf4D/0uFI3cDj+rnoBVPTCAcPK+g5LOOEfASDq9wNh3hzVVLY7GXwa
-# Fe9mzqBN2Zcq1CoBxbkgCLCZG2Ey3qW+3zJmKBvIneagGJ5cpAzjeCa+ZQMCTcuz
-# ACIhKkg24m17in5f8TShJn1t04GERzXq1lgZf40NNYDiC1HWaz++FMWHu4Zhp7+4
-# gA87JAs43f+GzrLdnbhkn5u7BE2cs9gcvkQjO2+Nkse+FOcQgUwcS4l8bgONB2/c
-# 2d+TBBYLxo7vXnRskH588APvTMpKNs4Zq1IvNPPUrRcCDACd0KVDRekPaXwek6bm
-# jg==
-# SIG # End signature block

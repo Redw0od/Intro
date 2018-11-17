@@ -29,7 +29,7 @@ DateCreated: 2018-6-21
 DateUpdated: 2018-6-21
 
 .EXAMPLE   
-.\AWS-Launch-IsntanceJob -I ((aws ec2 run-instances --launch-template  LaunchTemplateId=$LaunchTemplate).Instances -join "" | ConvertFrom-JSON) -C (Get-Credential) -AD (Get-Credential) -D "hpfod.net" 
+.\AWS-Launch-IsntanceJob -I ((aws ec2 run-instances --launch-template  LaunchTemplateId=$LaunchTemplate).Instances -join "" | ConvertFrom-JSON) -C (Get-Credential) -AD (Get-Credential) -D "stanton.wtf" 
 
 #>
 [cmdletbinding(SupportsShouldProcess)]
@@ -41,9 +41,9 @@ param(
     [Alias('AD')]
         [pscredential]$ADCredentials,
     [Alias('D')]
-        [string]$Domain = "hpfod.net",
+        [string]$Domain = "stanton.wtf",
     [Alias('O')]
-        [string]$OU = "OU=Dynamic,OU=Servers,OU=FOD,DC=hpfod,DC=net",
+        [string]$OU,
     [Alias('LF')]
         [string]  $LogFile = "$env:SYSTEMDRIVE\Logs\AWS_Launch_InstanceJob.log"
 )
@@ -146,51 +146,3 @@ Set-Item WSMan:\localhost\Client\TrustedHosts -Value "" -Force
 
 Write-Info (Run-Time $StartTime -FullText) $LogFile
 $ProgressPreference='Continue'
-
-# SIG # Begin signature block
-# MIIIPQYJKoZIhvcNAQcCoIIILjCCCCoCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
-# gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUFYNn7Xs9Ml2qW73Wu7IzdhPl
-# Ib2gggWuMIIFqjCCBJKgAwIBAgITbgAAAKzOi+ol+RGLKQAAAAAArDANBgkqhkiG
-# 9w0BAQ0FADBBMRMwEQYKCZImiZPyLGQBGRYDbmV0MRUwEwYKCZImiZPyLGQBGRYF
-# aHBmb2QxEzARBgNVBAMTClBTTUNFUlRTMDEwHhcNMTgwMjA5MjIwMDM0WhcNMTkw
-# MjA5MjIwMDM0WjBvMRMwEQYKCZImiZPyLGQBGRYDbmV0MRUwEwYKCZImiZPyLGQB
-# GRYFaHBmb2QxDDAKBgNVBAsTA0ZPRDEOMAwGA1UECxMFVXNlcnMxDDAKBgNVBAsT
-# A09wczEVMBMGA1UEAxMMTWlrZSBTdGFudG9uMIIBIjANBgkqhkiG9w0BAQEFAAOC
-# AQ8AMIIBCgKCAQEAvk9oqgeTwJGtl8uZNUgf9gyqRi/Lxtyj8zrFlJqrW/yeuJAA
-# /XeBQqyPMkBd3Eq6H7Xmx286JOsCH7O7MvZGAUoE7m9gg0nXVIUvADukwK1CMQgF
-# ILrowvBYe6gusnn7a+kiYm68usv+OBU3UVcg7brOMZru6OisJFwwhw1HLzNOINwb
-# /aFst4MgRIpUZkVr5y/p32N9uNwPbZDeE0GGIiavnnKzlTGBpSNHSUNq+l6yAr2w
-# Gl6WS87MQYWXkXMMhdGRNSQJDwkwtw6uWIF0cee3TI2wqXIHTTWS3hzhVpnGnJ3w
-# spoWhk2yXGXciP5zKd5uKInRrwqmjoeihjX8/QIDAQABo4ICazCCAmcwJQYJKwYB
-# BAGCNxQCBBgeFgBDAG8AZABlAFMAaQBnAG4AaQBuAGcwEwYDVR0lBAwwCgYIKwYB
-# BQUHAwMwDgYDVR0PAQH/BAQDAgeAMB0GA1UdDgQWBBTGErOn7vtJpZuLu1MtnX4m
-# nK3M6zAfBgNVHSMEGDAWgBSlSAghybFdXgTP1bPcLwoWwleacDCByQYDVR0fBIHB
-# MIG+MIG7oIG4oIG1hoGybGRhcDovLy9DTj1QU01DRVJUUzAxLENOPVBTTUNlcnRz
-# MDEsQ049Q0RQLENOPVB1YmxpYyUyMEtleSUyMFNlcnZpY2VzLENOPVNlcnZpY2Vz
-# LENOPUNvbmZpZ3VyYXRpb24sREM9aHBmb2QsREM9bmV0P2NlcnRpZmljYXRlUmV2
-# b2NhdGlvbkxpc3Q/YmFzZT9vYmplY3RDbGFzcz1jUkxEaXN0cmlidXRpb25Qb2lu
-# dDCB3QYIKwYBBQUHAQEEgdAwgc0wgacGCCsGAQUFBzAChoGabGRhcDovLy9DTj1Q
-# U01DRVJUUzAxLENOPUFJQSxDTj1QdWJsaWMlMjBLZXklMjBTZXJ2aWNlcyxDTj1T
-# ZXJ2aWNlcyxDTj1Db25maWd1cmF0aW9uLERDPWhwZm9kLERDPW5ldD9jQUNlcnRp
-# ZmljYXRlP2Jhc2U/b2JqZWN0Q2xhc3M9Y2VydGlmaWNhdGlvbkF1dGhvcml0eTAh
-# BggrBgEFBQcwAYYVaHR0cDovL3BzbWNlcnQwMS9vY3NwMC0GA1UdEQQmMCSgIgYK
-# KwYBBAGCNxQCA6AUDBJtc3RhbnRvbkBocGZvZC5uZXQwDQYJKoZIhvcNAQENBQAD
-# ggEBAGj5z+lYcJzFAN7dU/Wcok/uyG0K5FxvNAERyYMjIY/rR6jndFQbnd/qu7Vw
-# AymOC8wDLYhoaYDs6XYzwA4aI5XkWslJPrS49nZPvqYcY0lXDPJX8Ryv85vdkIyc
-# 55+LD6iDy7Q51sMinrOljSzhkpfQ/87izHXomxF1TyzGk/qURi8w6P5u6Lbf5F0s
-# ri+MSAVEJrfAJZC/QIn9rVtGoxtEr7qLQOikGkDVrNZe+5hJtzkb9/hL5035VzTE
-# XRW3TXZhvoE9Cno57Z5YYX7oK82VduDroo3Jxt/Bd9VCbhHlCIPu4HuqAGVKBIDn
-# PMwnCQ9rZKD0uRWGUQwXjIFs9rMxggH5MIIB9QIBATBYMEExEzARBgoJkiaJk/Is
-# ZAEZFgNuZXQxFTATBgoJkiaJk/IsZAEZFgVocGZvZDETMBEGA1UEAxMKUFNNQ0VS
-# VFMwMQITbgAAAKzOi+ol+RGLKQAAAAAArDAJBgUrDgMCGgUAoHgwGAYKKwYBBAGC
-# NwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgor
-# BgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0BCQQxFgQUkZWj1TMC
-# G5jcLVKyVMAq4ifUZFQwDQYJKoZIhvcNAQEBBQAEggEAFG1yN8mWlWJnV7O8t6Px
-# +aInVGwXdGZR0zs3egN1HUFAGUyD1bJCI6r7ql3LDRympRxPEEJ0OgECND5YQFPC
-# IOuJVd7r7WaLrRext9RHAczXxnoDUO+cgBpXOJvY2YUOIROhO3oXsyvrJeuGaIo5
-# SiiTJLnPsBzm05L4rNA5+7hLWBCkA6SVrs437kPcLm2vDH1Thz00KeKc/8wfQNSa
-# /T1ccHrh7kt9jUN9aDDH0SzPyLiAuqD++g3e8f+RjDwMDLaOKLMSKdzhgT0xV8rM
-# h1Gd3NQQw4cmAKepK98HRJYXCXTrh9Jzl9Nq0+WGTZz6Maq0kSRfjzFwzAokTcHb
-# /g==
-# SIG # End signature block

@@ -18,7 +18,7 @@ do
     if [ $PRIORITY -eq 1 ]
         then
         echo -e "${RED}Launching Swarm Scripts on ${SERVER}${NC}"
-        ssh root@${SERVER} "/opt/hpad/hostShellScripts/${NAMES[$COUNTER]}.sh"
+        ssh root@${SERVER} "/opt/stanton/hostShellScripts/${NAMES[$COUNTER]}.sh"
     fi
 	COUNTER=$((COUNTER + 1 ))
 done
@@ -33,7 +33,7 @@ do
     if [ $PRIORITY -eq 0 ]
 	then
         echo -e "${RED}Launching Swarm Scripts on ${SERVER}${NC}"
-	ssh root@${SERVER} "/opt/hpad/hostShellScripts/${NAMES[$COUNTER]}.sh"
+	ssh root@${SERVER} "/opt/stanton/hostShellScripts/${NAMES[$COUNTER]}.sh"
     fi
 	COUNTER=$((COUNTER + 1 ))
 done

@@ -1,8 +1,8 @@
 #!/bin/bash
 #nfs-unmount.sh
 source ./inc-parse-servers.sh
-NFSSERVER=10.111.4.24
-DIR=(serverkeys appdefender app-config hostShellScripts consul license)
+NFSSERVER=10.0.0.24
+DIR=(serverkeys devops app-config hostShellScripts consul license)
 
 for SERVER in ${SERVERS[@]}
 do
@@ -20,13 +20,13 @@ do
 
 		echo -e "${RED}Unlinking NFS shares ${SERVER}${NC}"
 		for d in ${DIR[@]}; do
-			if ( ssh root@${SERVER} "[ -L /opt/hpad/${d} ]" ); then
-				ssh root@${SERVER} "rm -f /opt/hpad/${d}"
+			if ( ssh root@${SERVER} "[ -L /opt/stanton/${d} ]" ); then
+				ssh root@${SERVER} "rm -f /opt/stanton/${d}"
 			fi
 		done
 		for d in ${DIR[@]}; do
-			if ( ssh root@${SERVER} "[ -d /opt/hpad/backup/${d} ]" ); then
-				ssh root@${SERVER} "mv /opt/hpad/backup/${d} /opt/hpad/"
+			if ( ssh root@${SERVER} "[ -d /opt/stanton/backup/${d} ]" ); then
+				ssh root@${SERVER} "mv /opt/stanton/backup/${d} /opt/stanton/"
 			fi
 		done
 	fi

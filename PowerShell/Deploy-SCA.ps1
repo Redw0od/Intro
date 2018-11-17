@@ -47,34 +47,30 @@ Description
 This command only works if the script is in your current directory
 
 .EXAMPLE
-S:\Deploy-SCA.ps1 -SourcePath C:\SCA\ -ComputerName plmoctopus02.hpfod.net
+S:\Deploy-SCA.ps1 -SourcePath C:\SCA\ -ComputerName plmoctopus02.stanton.wtf
 
 Description
 -----------
-Use the files located in C:\SCA to create Nuget packages and upload to plmoctopus02.hpfod.net
+Use the files located in C:\SCA to create Nuget packages and upload to plmoctopus02.stanton.wtf
 #>
 [cmdletbinding(SupportsShouldProcess)]
 param (
     [Alias('CN')]
-        [string]  $ComputerName = "octopus01.hpfod.net",
-        #[string]  $ComputerName = "plfodOctopus02.hpfod.net",
+        [string]  $ComputerName = "octopus01.stanton.wtf",
     [Alias('SP')]
-        [string]  $SourcePath = "\\psmfiles.hpfod.net\Software\FOD\SCA\",
-        #[string]  $SourcePath = "\\plmfiles\Software\FOD\SCA\SCA Deploy",
+        [string]  $SourcePath = "\\files.stanton.wtf\Software\FOD\SCA\",
     [Alias('SF')]
         [string]  $SubFolder = "",
     [Alias('API')]
-        [string]  $APIKey = "API-ZERPUFWGR07BNAO0P7PCTCJQSE",
-        #[string]  $APIKey = "API-FI0UIGK9KENXMLNHUVWFAEQA6M",
+        [string]  $APIKey,
     [Alias('V')]
-        [string]  $Version = "18.20.1071",
+        [string]  $Version = "",
     [Alias('FPR')]
         [string]  $FPRmem = "64g",
     [Alias('U')]
         [switch]  $SkipUpload = $false,
     [Alias('N')]
-        [string]  $Nuget = "\\psmfiles.hpfod.net\Software\Octopus\nuget.exe",
-        #[string]  $Nuget = "\\plmfiles.hpfod.net\Software\Octopus\nuget.exe",
+        [string]  $Nuget = "\\files.stanton.wtf\Software\Octopus\nuget.exe",
     [Alias('LP')]
         [string]  $LogFile = "$env:SYSTEMDRIVE\Logs\DeploySCA.log"
 )
